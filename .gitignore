@@ -1,0 +1,12 @@
+
+be/build/
+
+be/logs/
+
+be/.gradle/
+
+be/.idea/
+
+web/node_modules/
+
+web/.idea/
