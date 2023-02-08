@@ -1,0 +1,99 @@
+buildscript {
+    repositories { jcenter() }
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:4.0.3'
+        classpath "org.jooq:jooq:3.15.4"
+        classpath "org.jooq:jooq-meta:3.15.4"
+        classpath "org.jooq:jooq-codegen:3.15.4"
+        classpath 'mysql:mysql-connector-java:8.0.31'
+        classpath 'org.mariadb.jdbc:mariadb-java-client:2.4.1'
+    }
+}
+
+
+plugins {
+    id 'java'
+}
+apply plugin: 'com.github.johnrengelman.shadow'
+
+group 'com.hieplp'
+version '1.0'
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+def vertxVersion = '4.3.5'
+def log4jVersion = '2.19.0'
+def jooqVersion = '3.15.4'
+
+dependencies {
+    implementation(
+            "org.apache.logging.log4j:log4j-core:${log4jVersion}",
+            "org.apache.logging.log4j:log4j-api:${log4jVersion}",
+            "org.apache.logging.log4j:log4j-slf4j-impl:${log4jVersion}"
+    )
+
+    implementation(
+            "io.vertx:vertx-core:${vertxVersion}",
+            "io.vertx:vertx-web:${vertxVersion}",
+            "io.vertx:vertx-web-client:${vertxVersion}",
+            "io.vertx:vertx-redis-client:${vertxVersion}"
+    )
+
+    implementation(
+            'mysql:mysql-connector-java:8.0.31',
+            'com.zaxxer:HikariCP:5.0.1'
+    )
+
+    implementation(
+            "org.jooq:jooq:${jooqVersion}",
+            "org.jooq:jooq-meta:${jooqVersion}"
+    )
+
+    implementation(
+            'com.google.code.gson:gson:2.10',
+            'com.google.inject:guice:5.1.0',
+            'com.google.inject.extensions:guice-assistedinject:5.1.0',
+            'org.projectlombok:lombok:1.18.24',
+            'org.apache.commons:commons-lang3:3.12.0',
+            'org.java-websocket:Java-WebSocket:1.5.3',
+            'io.reactivex.rxjava3:rxjava:3.1.6'
+    )
+
+    annotationProcessor('org.projectlombok:lombok:1.18.24')
+
+}
+
+shadowJar {
+    manifest {
+        attributes 'Main-Class': 'io.vertx.core.Launcher'
+        attributes 'Main-Verticle': 'com.hieplp.lrt.Application'
+    }
+    mergeServiceFiles {
+        include 'META-INF/services/io.vertx.core.spi.VerticleFactory'
+    }
+}
+
+//import org.jooq.codegen.GenerationTool
+//import org.jooq.meta.jaxb.*
+//
+//GenerationTool.generate(new Configuration()
+//        .withJdbc(new Jdbc()
+//                .withDriver('org.mariadb.jdbc.Driver')
+//                .withUrl('jdbc:mariadb://127.0.0.1:3306/longTask')
+//                .withUser('root')
+//                .withPassword('123456'))
+//        .withGenerator(new Generator()
+//                .withDatabase(new Database()
+//                        .withName("org.jooq.meta.mysql.MySQLDatabase")
+//                        .withInputSchema("longTask")
+//                        .withOutputSchema("longTask"))
+//                .withGenerate(new Generate()
+//                        .withFluentSetters(true)
+//                        .withPojos(true)
+//                        .withDaos(true))
+//                .withTarget(new Target()
+//                        .withPackageName('com.hieplp.lrt.repositories.generate')
+//                        .withDirectory('/home/hieplp/Project/long-running-task/be/src/main/java'))))

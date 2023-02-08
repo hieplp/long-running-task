@@ -1,0 +1,23 @@
+{
+  "serverConfig": {
+    "host": "0.0.0.0",
+    "port": 9001
+  },
+  "dbConfig": {
+    "dataSourceClassName": "com.mysql.cj.jdbc.MysqlDataSource",
+    "host": "localhost",
+    "port": "3306",
+    "maxPoolSize": "16",
+    "username": "root",
+    "password": "123456",
+    "database": "longTask",
+    "debugInfoOnStackTrace": false,
+    "executeLogging": false
+  },
+  "redisConfig": {
+    "connectionString": "redis://localhost:6379",
+    "password": "123456"
+  },
+  "workerPoolSize": 16,
+  "workerMaxExecuteTime": 5000
+}

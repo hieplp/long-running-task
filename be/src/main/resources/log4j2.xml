@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Properties>
+        <Property name="log-path">
+            logs
+        </Property>
+        <Property name="backup-log-path">
+            logs/backup
+        </Property>
+    </Properties>
+    <Appenders>
+        <RollingFile name="long-running-task-error"
+                     fileName="${log-path}/long-running-task-error.log"
+                     filePattern="${backup-log-path}/long-running-task-error-%d{yyyy-MMM-dd}-%i.log.gz"
+                     immediateFlush="true" append="true">
+            <PatternLayout>
+                <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] [%t] %c{10} [%L] - %msg%n</pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="50 MB"/>
+            </Policies>
+        </RollingFile>
+        <RollingFile name="long-running-task-debug"
+                     fileName="${log-path}/long-running-task-debug.log"
+                     filePattern="${backup-log-path}/long-running-task-debug-%d{yyyy-MMM-dd}-%i.log.gz"
+                     immediateFlush="true" append="true">
+            <PatternLayout>
+                <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] [%t] %c{10} [%L] - %msg%n</pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="50 MB"/>
+            </Policies>
+        </RollingFile>
+        <RollingFile name="long-running-task-info"
+                     fileName="${log-path}/long-running-task-info.log"
+                     filePattern="${backup-log-path}/long-running-task-info-%d{yyyy-MMM-dd}-%i.log.gz"
+                     immediateFlush="true" append="true">
+            <PatternLayout>
+                <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] [%t] %c{10} [%L] - %msg%n</pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="50 MB"/>
+            </Policies>
+        </RollingFile>
+        <RollingFile name="long-running-task-trace"
+                     fileName="${log-path}/long-running-task-trace.log"
+                     filePattern="${backup-log-path}/long-running-task-trace-%d{yyyy-MMM-dd}-%i.log.gz"
+                     immediateFlush="true" append="true">
+            <PatternLayout>
+                <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] [%t] %c{10} [%L] - %msg%n</pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="50 M"/>
+            </Policies>
+        </RollingFile>
+
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout disableAnsi="false" pattern="%highlight{%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] [%T] %c{1} -%M %c{10} - %msg%n}{FATAL=red,
+                    ERROR=red, WARN=yellow bold, INFO=green, DEBUG=white bold, TRACE=gray}"/>
+        </Console>
+    </Appenders>
+
+    <Loggers>
+        <Logger name="com.zaxxer.hikari" level="error"/>
+        <Logger name="org.mongodb" level="error"/>
+        <Root level="debug">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="long-running-task-error" level="error"/>
+            <AppenderRef ref="long-running-task-info" level="info"/>
+            <AppenderRef ref="long-running-task-debug" level="debug"/>
+            <AppenderRef ref="long-running-task-trace" level="trace"/>
+        </Root>
+
+    </Loggers>
+
+</Configuration>
