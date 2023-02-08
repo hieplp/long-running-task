@@ -10,3 +10,5 @@ be/.idea/
 web/node_modules/
 
 web/.idea/
+
+web/.vscode/
